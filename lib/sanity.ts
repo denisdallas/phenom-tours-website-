@@ -22,7 +22,7 @@ export type Tour = {
   highlights?: string[]
   inclusions?: string[]
   exclusions?: string[]
-  itinerary?: Array<{ day?: string; title?: string; description?: string; activities?: string[] }>
+  itinerary?: Array<{ dayNumber?: number; title?: string; description?: string; activities?: string[]; accommodation?: string; meals?: string }>
   featuredImage?: ImageAsset
   featured?: boolean
   seoTitle?: string
@@ -51,7 +51,7 @@ export type Destination = {
 }
 export type GalleryItem = { _id: string; title: string; country?: string; image?: ImageAsset }
 export type Service = { _id: string; title: string; description?: string; icon?: string }
-export type Testimonial = { _id: string; name?: string; review?: string; rating?: number; country?: string }
+export type Testimonial = { _id: string; customerName?: string; text?: string; rating?: number; location?: string }
 export type SiteSettings = {
   siteTitle?: string
   siteDescription?: string
@@ -124,7 +124,7 @@ export async function getServices(): Promise<Service[]> {
 
 export async function getTestimonials(): Promise<Testimonial[]> {
   try {
-    return await query<Testimonial[]>(`*[_type == "testimonial"] | order(_createdAt desc) {_id, name, review, rating, country}`)
+    return await query<Testimonial[]>(`*[_type == "testimonial" && published == true] | order(_createdAt desc) {_id, customerName, text, rating, location}`)
   } catch {
     return []
   }

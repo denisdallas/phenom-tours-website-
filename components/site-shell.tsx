@@ -2,11 +2,11 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { Menu, X } from "lucide-react"
+import { Menu, MessageCircle, X } from "lucide-react"
 
 const links = [
   ["Home", "/"],
-  ["Destinations", "/destinations"],
+  ["Destinations", "/#destinations"],
   ["Packages", "/tour-packages"],
   ["Services", "/#services"],
   ["Gallery", "/gallery"],
@@ -53,5 +53,5 @@ export function SiteFooter() {
 }
 
 export function WhatsAppButton() {
-  return <a className="whatsapp-float" href="https://wa.me/256764388326" target="_blank" rel="noreferrer" aria-label="Chat with Phenom Tours on WhatsApp">◉</a>
+  return <a className="whatsapp-float" href="https://wa.me/256764388326" target="_blank" rel="noreferrer" aria-label="Chat with Phenom Tours on WhatsApp"><MessageCircle size={23} aria-hidden="true" /></a>
 }
