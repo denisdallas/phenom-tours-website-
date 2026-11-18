@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { PortableText } from "@portabletext/react"
-import type { Destination, GalleryItem, Post, Tour } from "@/lib/sanity"
-import { getSanityImageUrl } from "@/lib/sanity"
+import type { Destination, Post, Tour } from "@/lib/sanity"
+import { getDestinationSlug, getSanityImageUrl } from "@/lib/sanity"
 
 export function PageIntro({ eyebrow, title, description }: { eyebrow?: string; title: string; description?: string }) {
   return <section className="page-intro"><div className="container"><span className="eyebrow">{eyebrow || "PHENOM TOURS & TRAVEL"}</span><h1>{title}</h1>{description && <p>{description}</p>}</div></section>
@@ -27,10 +27,10 @@ export function TourGrid({ tours }: { tours: Tour[] }) {
 
 export function DestinationCard({ destination }: { destination: Destination }) {
   return <article className="destination-card">
-    <Link className="card-image" href={`/tour-packages?country=${encodeURIComponent(destination.country)}`} aria-label={`Explore ${destination.country}`}>
+    <Link className="card-image" href={`/destinations/${getDestinationSlug(destination)}`} aria-label={`Explore ${destination.country}`}>
       {getSanityImageUrl(destination.featuredImage) && <img src={getSanityImageUrl(destination.featuredImage)} alt={`${destination.country} safari landscape`} loading="lazy" />}
     </Link>
-    <div className="destination-card-copy"><p className="eyebrow">EAST AFRICA</p><h3>{destination.country}</h3><p>{destination.description}</p><Link className="text-link" href={`/tour-packages?country=${encodeURIComponent(destination.country)}`}>Explore {destination.country} <span aria-hidden="true">→</span></Link></div>
+    <div className="destination-card-copy"><p className="eyebrow">EAST AFRICA</p><h3>{destination.country}</h3><p>{destination.description}</p><Link className="text-link" href={`/destinations/${getDestinationSlug(destination)}`}>Explore {destination.country} <span aria-hidden="true">→</span></Link></div>
   </article>
 }
 
@@ -41,10 +41,6 @@ export function PostCard({ post }: { post: Post }) {
     </Link>
     <div className="card-body"><p className="card-meta">{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "PHENOM TRAVEL JOURNAL"}</p><h2><Link href={`/blog/${post.slug}`}>{post.title}</Link></h2><p>{post.excerpt}</p><Link className="text-link" href={`/blog/${post.slug}`}>Read article <span aria-hidden="true">→</span></Link></div>
   </article>
-}
-
-export function GalleryGrid({ items }: { items: GalleryItem[] }) {
-  return <div className="gallery-grid">{items.map(item => <figure key={item._id} className="gallery-item">{getSanityImageUrl(item.image) && <img src={getSanityImageUrl(item.image, 1100)} alt={item.image?.alt || item.title} loading="lazy" />}<figcaption><span>{item.country}</span><strong>{item.title}</strong></figcaption></figure>)}</div>
 }
 
 export function PortableBody({ value }: { value?: unknown[] }) {

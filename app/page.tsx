@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { ArrowRight, Binoculars, Compass, HeartHandshake, Leaf, MapPinned, PawPrint, ShieldCheck } from "lucide-react"
-import { getDestinations, getPosts, getServices, getSiteSettings, getTestimonials, getTours, getSanityImageUrl } from "@/lib/sanity"
+import { getDestinations, getGallery, getPosts, getServices, getSiteSettings, getTestimonials, getTours, getSanityImageUrl } from "@/lib/sanity"
 import { DestinationCard, PostCard, TourGrid } from "@/components/content"
 
 export const metadata = {
@@ -17,7 +17,7 @@ const specialties = [
 ]
 
 export default async function HomePage() {
-  const [settings, tours, destinations, services, posts, testimonials] = await Promise.all([getSiteSettings(), getTours(), getDestinations(), getServices(), getPosts(), getTestimonials()])
+  const [settings, tours, destinations, services, posts, testimonials, gallery] = await Promise.all([getSiteSettings(), getTours(), getDestinations(), getServices(), getPosts(), getTestimonials(), getGallery()])
   const video = settings?.heroBackgroundVideo?.asset?.url || "https://cdn.sanity.io/files/r5l7hs53/production/775ad414da4903fb27d3bc4bedac81aa69c86229.mp4"
   const poster = getSanityImageUrl(settings?.heroVideoPoster, 1800) || "https://cdn.sanity.io/images/r5l7hs53/production/ac13834cb28ff40ed6c34db8d5015ae073e474e9-1080x1080.jpg"
   const featuredTours = tours.filter(tour => tour.featured).slice(0, 6)
@@ -49,6 +49,8 @@ export default async function HomePage() {
     {testimonials.length > 0 && <section className="section section-white"><div className="container"><div className="section-heading"><div><span className="eyebrow">TRAVELLER STORIES</span><h2>What Our Guests Say</h2><p>Personal journeys, remembered long after the return home.</p></div></div><div className="testimonial-grid">{testimonials.slice(0, 3).map(testimonial => <figure className="testimonial-card" key={testimonial._id}><div className="testimonial-stars" aria-label={`${testimonial.rating || 5} out of 5 stars`}>{"★".repeat(Math.min(testimonial.rating || 5, 5))}</div><blockquote>“{testimonial.text}”</blockquote><figcaption><strong>{testimonial.customerName}</strong>{testimonial.location && <span>{testimonial.location}</span>}</figcaption></figure>)}</div></div></section>}
 
     {posts.length > 0 && <section className="section section-soft"><div className="container"><div className="section-heading"><div><span className="eyebrow">FIELD NOTES &amp; INSPIRATION</span><h2>From Our Travel Journal</h2><p>Practical tips and stories to help you plan a more rewarding East African safari.</p></div><Link className="text-link" href="/blog">Read the journal <ArrowRight size={16} /></Link></div><div className="post-grid">{posts.slice(0, 3).map(post => <PostCard key={post._id} post={post} />)}</div></div></section>}
+
+    {gallery.some(item => item.image?.url) && <section className="section section-soft"><div className="container"><div className="section-heading"><div><span className="eyebrow">MOMENTS FROM THE JOURNEY</span><h2>See East Africa Through Our Lens</h2><p>Wildlife, landscapes and the people who make each journey memorable.</p></div><Link className="text-link" href="/gallery">Explore the gallery <ArrowRight size={16} /></Link></div><div className="gallery-grid">{gallery.filter(item => item.image?.url).slice(0, 3).map(item => <figure className="gallery-item" key={item._id}><Link href="/gallery" aria-label={`See more photos: ${item.title}`}><img src={getSanityImageUrl(item.image, 900)} alt={item.image?.alt || item.title} loading="lazy" /><figcaption><span>{item.country}</span><strong>{item.title}</strong></figcaption></Link></figure>)}</div></div></section>}
 
     <section className="closing-cta"><div className="container closing-inner"><div><span className="eyebrow">LET’S PLAN YOUR SAFARI</span><h2>Your East African journey starts here.</h2><p>Tell us what inspires you. We’ll help make a thoughtful, personal itinerary.</p></div><Link className="button button-orange" href="/contact">Request a quote <ArrowRight size={17} /></Link></div></section>
   </main>

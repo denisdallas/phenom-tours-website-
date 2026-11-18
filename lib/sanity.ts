@@ -144,6 +144,10 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
   }
 }
 
+export function getDestinationSlug(destination: Destination) {
+  return destination.slug?.trim() || destination.country.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
+}
+
 export function getSanityImageUrl(image?: ImageAsset, width = 1200) {
   if (!image?.url) return undefined
   return `${image.url}?w=${width}&auto=format`
