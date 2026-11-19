@@ -5,6 +5,7 @@ const sanity = createClient({
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   apiVersion: "2024-01-01",
   useCdn: true,
+  perspective: "published",
 })
 
 export type ImageAsset = { url?: string; alt?: string }
@@ -85,7 +86,7 @@ export async function getTours(): Promise<Tour[]> {
 
 export async function getPosts(): Promise<Post[]> {
   try {
-    return await query<Post[]>(`*[_type == "post" && defined(slug.current)] | order(publishedAt desc) {
+    return await query<Post[]>(`*[_type == "post" && published != false && defined(slug.current)] | order(publishedAt desc) {
       _id, title, "slug": slug.current, excerpt, category, publishedAt, body,
       seoTitle, seoDescription, "featuredImage": {"url": featuredImage.asset->url, "alt": title}, "author": author->{name}
     }`)
@@ -96,7 +97,7 @@ export async function getPosts(): Promise<Post[]> {
 
 export async function getDestinations(): Promise<Destination[]> {
   try {
-    return await query<Destination[]>(`*[_type == "destination"] | order(country asc) {
+    return await query<Destination[]>(`*[_type == "destination" && published != false] | order(country asc) {
       _id, name, country, description, "slug": slug.current, "featuredImage": {"url": featuredImage.asset->url, "alt": name}
     }`)
   } catch {
@@ -116,7 +117,7 @@ export async function getGallery(): Promise<GalleryItem[]> {
 
 export async function getServices(): Promise<Service[]> {
   try {
-    return await query<Service[]>(`*[_type == "service"] | order(_createdAt asc) {_id, title, description, icon}`)
+    return await query<Service[]>(`*[_type == "service" && published != false] | order(_createdAt asc) {_id, title, description, icon}`)
   } catch {
     return []
   }

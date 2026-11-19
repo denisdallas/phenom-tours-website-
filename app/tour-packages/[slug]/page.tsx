@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: tour.seoTitle || tour.title.trim(),
     description: tour.seoDescription || tour.shortDescription,
-    alternates: { canonical: `/tour-packages/${slug}` },
+    alternates: { canonical: `/tour-packages/${encodeURIComponent(slug)}` },
     openGraph: { images: image ? [image] : [] },
   }
 }
@@ -49,7 +49,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
           </div>
           <aside className="tour-aside">
             <span className="eyebrow">YOUR SAFARI STARTS HERE</span>
-            {tour.price ? <><strong>USD {tour.price.toLocaleString()}</strong><p>{tour.priceDescription || "per person · indicative starting price"}</p></> : <p>Tailor-made pricing for your travel dates and group size.</p>}
+            {tour.price ? <><strong>{tour.priceDescription?.trim() || `USD ${tour.price.toLocaleString("en-US")} per person`}</strong><p>Request a written quote to confirm the rate for your dates and group size, room-sharing arrangements, and any single-room supplement.</p></> : <p>Tailor-made pricing for your travel dates and group size.</p>}
             <p>Contact us to check availability, permits and accommodation options.</p>
             <Link className="button button-orange" href={`/contact?tour=${encodeURIComponent(tour.title.trim())}`}>Request a quote</Link>
             <Link className="text-link" href="https://wa.me/256764388326" target="_blank" rel="noreferrer">WhatsApp our team</Link>

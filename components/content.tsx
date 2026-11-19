@@ -9,13 +9,13 @@ export function PageIntro({ eyebrow, title, description }: { eyebrow?: string; t
 
 export function TourCard({ tour }: { tour: Tour }) {
   return <article className="tour-card">
-    <Link className="card-image" href={`/tour-packages/${tour.slug}`} aria-label={`View ${tour.title}`}>
-      {getSanityImageUrl(tour.featuredImage) && <img src={getSanityImageUrl(tour.featuredImage)} alt={tour.featuredImage?.alt || tour.title} loading="lazy" />}
-      {tour.price ? <span className="price-pill">USD {tour.price.toLocaleString()} per person</span> : null}
+    <Link className="card-image" href={`/tour-packages/${encodeURIComponent(tour.slug)}`} aria-label={`View ${tour.title}`}>
+      {getSanityImageUrl(tour.featuredImage) && <img src={getSanityImageUrl(tour.featuredImage, 640)} srcSet={[360, 640, 900].map(width => `${getSanityImageUrl(tour.featuredImage, width)} ${width}w`).join(", ")} sizes="(max-width: 520px) 94vw, (max-width: 780px) 46vw, 400px" alt={tour.featuredImage?.alt || tour.title} loading="lazy" />}
+
     </Link>
     <div className="card-body"><p className="card-meta">{tour.duration || "Tailor-made safari"} <span>·</span> {tour.country}</p>
-      <h3><Link href={`/tour-packages/${tour.slug}`}>{tour.title.trim()}</Link></h3>
-      <p>{tour.shortDescription}</p><Link className="text-link" href={`/tour-packages/${tour.slug}`}>View itinerary <span aria-hidden="true">→</span></Link>
+      <h3><Link href={`/tour-packages/${encodeURIComponent(tour.slug)}`}>{tour.title.trim()}</Link></h3>
+      <p>{tour.shortDescription}</p>{tour.price ? <p className="tour-price">{tour.priceDescription?.trim() || `USD ${tour.price.toLocaleString("en-US")} per person`}</p> : null}<Link className="text-link" href={`/tour-packages/${encodeURIComponent(tour.slug)}`}>View itinerary <span aria-hidden="true">→</span></Link>
     </div>
   </article>
 }
@@ -27,19 +27,19 @@ export function TourGrid({ tours }: { tours: Tour[] }) {
 
 export function DestinationCard({ destination }: { destination: Destination }) {
   return <article className="destination-card">
-    <Link className="card-image" href={`/destinations/${getDestinationSlug(destination)}`} aria-label={`Explore ${destination.country}`}>
+    <Link className="card-image" href={`/destinations/${encodeURIComponent(getDestinationSlug(destination))}`} aria-label={`Explore ${destination.country}`}>
       {getSanityImageUrl(destination.featuredImage) && <img src={getSanityImageUrl(destination.featuredImage)} alt={`${destination.country} safari landscape`} loading="lazy" />}
     </Link>
-    <div className="destination-card-copy"><p className="eyebrow">EAST AFRICA</p><h3>{destination.country}</h3><p>{destination.description}</p><Link className="text-link" href={`/destinations/${getDestinationSlug(destination)}`}>Explore {destination.country} <span aria-hidden="true">→</span></Link></div>
+    <div className="destination-card-copy"><p className="eyebrow">EAST AFRICA</p><h3>{destination.country}</h3><p>{destination.description}</p><Link className="text-link" href={`/destinations/${encodeURIComponent(getDestinationSlug(destination))}`}>Explore {destination.country} <span aria-hidden="true">→</span></Link></div>
   </article>
 }
 
 export function PostCard({ post }: { post: Post }) {
   return <article className="post-card">
-    <Link className="card-image" href={`/blog/${post.slug}`} aria-label={`Read ${post.title}`}>
+    <Link className="card-image" href={`/blog/${encodeURIComponent(post.slug)}`} aria-label={`Read ${post.title}`}>
       {getSanityImageUrl(post.featuredImage) && <img src={getSanityImageUrl(post.featuredImage)} alt={post.featuredImage?.alt || post.title} loading="lazy" />}
     </Link>
-    <div className="card-body"><p className="card-meta">{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "PHENOM TRAVEL JOURNAL"}</p><h2><Link href={`/blog/${post.slug}`}>{post.title}</Link></h2><p>{post.excerpt}</p><Link className="text-link" href={`/blog/${post.slug}`}>Read article <span aria-hidden="true">→</span></Link></div>
+    <div className="card-body"><p className="card-meta">{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "PHENOM TRAVEL JOURNAL"}</p><h2><Link href={`/blog/${encodeURIComponent(post.slug)}`}>{post.title}</Link></h2><p>{post.excerpt}</p><Link className="text-link" href={`/blog/${encodeURIComponent(post.slug)}`}>Read article <span aria-hidden="true">→</span></Link></div>
   </article>
 }
 

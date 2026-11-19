@@ -11,14 +11,13 @@ export const metadata: Metadata = {
   authors: [{ name: "Phenom Tours & Travel" }],
   creator: "Phenom Tours & Travel",
   publisher: "Phenom Tours & Travel",
-  alternates: { canonical: "/" },
-  openGraph: { type: "website", locale: "en_UG", siteName: "Phenom Tours & Travel", title: "Phenom Tours and Travel | Uganda Birding & Primate Safaris", description: "Personalised birding, primate, wildlife and community safaris across East Africa.", url: "https://phenomtoursandtravel.net" },
+  openGraph: { type: "website", locale: "en_UG", siteName: "Phenom Tours & Travel", title: "Phenom Tours and Travel | Uganda Birding & Primate Safaris", description: "Personalised birding, primate, wildlife and community safaris across East Africa." },
   twitter: { card: "summary_large_image", title: "Phenom Tours and Travel | Uganda Birding & Primate Safaris", description: "Personalised birding, primate, wildlife and community safaris across East Africa." },
   other: { "msvalidate.01": "32B47117C014DEBB5B11A82D4BB69A0B" },
 }
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, maximumScale: 5, themeColor: "#1B5E3F", colorScheme: "light" }
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#1B5E3F", colorScheme: "light" }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><SiteHeader />{children}<SiteFooter /><WhatsAppButton />{process.env.NEXT_PUBLIC_GA_ID && <><script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`} /><script dangerouslySetInnerHTML={{ __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${process.env.NEXT_PUBLIC_GA_ID}');` }} /></>}</body></html>
+  return <html lang="en"><body><a className="skip-link" href="#main-content">Skip to main content</a><SiteHeader /><div id="main-content" tabIndex={-1}>{children}</div><SiteFooter /><WhatsAppButton /></body></html>
 }
