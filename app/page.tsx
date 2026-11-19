@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { getDestinations, getGallery, getPosts, getServices, getTestimonials, getTours, getSanityImageUrl } from "@/lib/sanity"
+import { getDestinations, getGallery, getPosts, getServices, getSiteSettings, getTestimonials, getTours, getSanityImageUrl } from "@/lib/sanity"
 import { ServiceCards, specialties } from "@/components/service-cards"
 import { HeroMedia } from "@/components/hero-media"
 import { DestinationCard, PostCard, TourGrid } from "@/components/content"
@@ -12,17 +12,23 @@ export const metadata = {
 }
 
 export default async function HomePage() {
-  const [tours, destinations, services, posts, testimonials, gallery] = await Promise.all([getTours(), getDestinations(), getServices(), getPosts(), getTestimonials(), getGallery()])
+  const [tours, destinations, services, posts, testimonials, gallery, settings] = await Promise.all([getTours(), getDestinations(), getServices(), getPosts(), getTestimonials(), getGallery(), getSiteSettings()])
+  const video = settings?.heroBackgroundVideo?.asset?.url
+  const poster = settings?.heroVideoPoster?.url
+  const customVideo = video && !video.endsWith("/775ad414da4903fb27d3bc4bedac81aa69c86229.mp4") ? video : undefined
+  const customPoster = poster && !poster.endsWith("/ac13834cb28ff40ed6c34db8d5015ae073e474e9-1080x1080.jpg")
+    ? getSanityImageUrl(settings.heroVideoPoster, 1080)
+    : undefined
   const featuredTours = tours.filter(tour => tour.featured).slice(0, 6)
   const selectedTours = featuredTours.length ? featuredTours : tours.slice(0, 6)
   return <main>
     <section className="hero" aria-label="Uganda safari experiences">
-      <HeroMedia />
+      <HeroMedia customVideo={customVideo} customPoster={customPoster} />
       <div className="hero-shade" />
       <div className="hero-content"><span className="hero-kicker">UGANDA · KENYA · RWANDA · TANZANIA</span>
         <h1>Uganda Birding, Primate, Wildlife &amp; Community Safaris</h1>
         <p>Discover East Africa through personalised budget, midrange and luxury journeys with Phenom Tours and Travel.</p>
-        <div className="hero-actions"><Link className="button button-orange" href="/tour-packages">Explore Safaris</Link><Link className="button button-outline" href="/contact">Request a Quote</Link></div>
+        <div className="hero-actions"><Link className="button button-orange" href="/tour-packages">Explore Safaris</Link><a className="button button-outline" href="mailto:info@phenomtoursandtravel.com?subject=Safari%20quote%20request">Request a Quote</a></div>
       </div><a className="hero-scroll" href="#why-phenom" aria-label="Scroll to discover">↓</a>
     </section>
 
@@ -44,6 +50,6 @@ export default async function HomePage() {
 
     {gallery.some(item => item.image?.url) && <section className="section section-soft"><div className="container"><div className="section-heading"><div><span className="eyebrow">MOMENTS FROM THE JOURNEY</span><h2>See East Africa Through Our Lens</h2><p>Wildlife, landscapes and the people who make each journey memorable.</p></div><Link className="text-link" href="/gallery">Explore the gallery <ArrowRight size={16} /></Link></div><div className="gallery-grid">{gallery.filter(item => item.image?.url).slice(0, 3).map(item => <figure className="gallery-item" key={item._id}><Link href="/gallery" aria-label={`See more photos: ${item.title}`}><img src={getSanityImageUrl(item.image, 900)} alt={item.image?.alt || item.title} loading="lazy" /><figcaption><span>{item.country}</span><strong>{item.title}</strong></figcaption></Link></figure>)}</div></div></section>}
 
-    <section className="closing-cta"><div className="container closing-inner"><div><span className="eyebrow">LET’S PLAN YOUR SAFARI</span><h2>Your East African journey starts here.</h2><p>Tell us what inspires you. We’ll help make a thoughtful, personal itinerary.</p></div><Link className="button button-orange" href="/contact">Request a quote <ArrowRight size={17} /></Link></div></section>
+    <section className="closing-cta"><div className="container closing-inner"><div><span className="eyebrow">LET’S PLAN YOUR SAFARI</span><h2>Your East African journey starts here.</h2><p>Tell us what inspires you. We’ll help make a thoughtful, personal itinerary.</p></div><Link className="button button-orange" href="/contact">Use the enquiry form <ArrowRight size={17} /></Link></div></section>
   </main>
 }
