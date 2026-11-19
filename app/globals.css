@@ -32,3 +32,78 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--orange);outline-off
 @media(min-width:768px){.trust-logo-card{height:80px}.trust-logo-card img{height:64px}.trust-payment-logo{height:32px}}
 @media(max-width:780px){.trust-badges{width:calc(100% - 36px)}.trust-logo-list{gap:18px}.trust-divider{margin:28px auto}}
 @media(max-width:520px){.trust-logo-list-payments{gap:16px}.trust-payment-logo{max-width:82px}}
+
+/* Responsive layout safeguards across phones, tablets, laptops and large displays. */
+html,body{max-width:100%;overflow-x:clip}
+img{max-width:100%;height:auto}
+.container,.footer-grid,.footer-bottom,.trust-badges,.contact-grid,.form-panel,.quote-form{min-width:0}
+.footer-grid>div,.contact-grid>*{min-width:0;overflow-wrap:anywhere}
+.section-heading h2,.why-copy h2,.closing-inner h2,.page-intro h1,.contact-details h2,.form-panel h2{font-size:clamp(1.5rem,2.4vw,2.5rem);line-height:1.2;overflow-wrap:anywhere}
+body{font-size:clamp(1rem,1.15vw,1.125rem)}
+
+@media(min-width:781px) and (max-width:1024px){
+  .site-header{height:72px;padding:6px 24px;gap:20px}
+  .brand{width:190px;min-width:0}
+  .brand img{height:58px}
+  .menu-toggle{display:inline-flex;align-items:center;justify-content:center}
+  .main-nav{display:none;position:absolute;top:72px;left:0;right:0;background:#fff;padding:10px 24px 20px;box-shadow:0 10px 20px #0b2a1715;align-items:stretch;flex-direction:column;gap:0}
+  .main-nav.is-open{display:flex}
+  .main-nav a{padding:11px 6px;border-bottom:1px solid var(--line);font-size:15px}
+  .contact-grid{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:28px}
+  .form-panel{padding:24px}
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:780px){
+  .container{width:calc(100% - 32px);max-width:620px}
+  .site-header{padding-inline:16px}
+  .hero-content{width:calc(100% - 32px)}
+  .hero h1{font-size:clamp(1.5rem,8vw,3rem);overflow-wrap:anywhere}
+  .section-heading h2,.why-copy h2,.closing-inner h2{font-size:clamp(1.5rem,6vw,2rem)}
+  .contact-grid{grid-template-columns:minmax(0,1fr);gap:28px}
+  .form-panel{width:100%;max-width:42rem;margin-inline:auto;padding:22px}
+  .quote-form{width:100%;max-width:42rem;margin-inline:auto}
+  .form-grid{grid-template-columns:minmax(0,1fr)}
+  .form-span{grid-column:1}
+  .form-submit{width:100%}
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr));width:calc(100% - 32px);padding-inline:0;gap:28px 18px}
+  .footer-grid>div:not(:first-child){overflow-wrap:anywhere}
+  .footer-bottom{width:calc(100% - 32px);overflow-wrap:anywhere}
+  .trust-badges{width:calc(100% - 32px)}
+  .trust-logo-list{width:100%;gap:12px}
+  .trust-logo-list-recognition .trust-logo-card{flex:1 1 82px;min-width:0;max-width:140px;height:60px;padding:6px}
+  .trust-logo-list-recognition .trust-logo-card img{width:100%;height:48px;max-width:100%;object-fit:contain}
+  .trust-logo-list-payments{gap:14px 16px}
+  .trust-payment-logo{flex:0 1 calc((100% - 16px)/2);width:auto;height:24px;max-width:100%;object-fit:contain}
+  .button{max-width:100%}
+  .search-controls,.form-grid{grid-template-columns:minmax(0,1fr)}
+  .search-controls>*{min-width:0}
+  .footer-brand img{height:auto;max-height:58px}
+}
+
+@media(min-width:521px) and (max-width:780px){
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .destination-grid,.tour-grid,.post-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:520px){
+  .footer-grid{grid-template-columns:minmax(0,1fr)}
+  .footer-brand{grid-column:auto}
+  .footer-grid>div:not(:first-child){align-items:flex-start}
+  .footer-bottom{align-items:flex-start}
+  .trust-logo-list-payments .trust-payment-logo{max-width:100%;height:24px}
+  .form-panel{padding:18px 16px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .button{width:100%;max-width:100%}
+  .closing-inner>.button{width:100%;justify-content:center}
+  .destination-grid,.tour-grid,.post-grid,.service-grid,.gallery-grid{grid-template-columns:minmax(0,1fr)}
+}
+
+@media(min-width:1025px){
+  .footer-grid{grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(0,1fr)) minmax(0,1.2fr)}
+  .form-panel,.quote-form{max-width:42rem;margin-inline:auto}
+  .form-submit{width:auto}
+}
+
