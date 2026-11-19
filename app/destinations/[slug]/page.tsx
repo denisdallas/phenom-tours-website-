@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${name} Safaris | Phenom Tours & Travel`,
     description: destination.description || `Explore ${name} with Phenom Tours & Travel through birding, wildlife, primate and community experiences.`,
-    alternates: { canonical: `/destinations/${slug}` },
+    alternates: { canonical: `/destinations/${encodeURIComponent(slug)}` },
     openGraph: { images: getSanityImageUrl(destination.featuredImage) ? [getSanityImageUrl(destination.featuredImage)!] : [] },
   }
 }
