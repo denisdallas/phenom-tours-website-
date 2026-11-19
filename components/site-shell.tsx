@@ -6,9 +6,9 @@ import { Menu, MessageCircle, X } from "lucide-react"
 
 const links = [
   ["Home", "/"],
-  ["Destinations", "/#destinations"],
+  ["Destinations", "/destinations"],
   ["Packages", "/tour-packages"],
-  ["Services", "/#services"],
+  ["Services", "/services"],
   ["Gallery", "/gallery"],
   ["Search Tour", "/search"],
   ["Blog", "/blog"],
@@ -19,14 +19,19 @@ const links = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
   return (
-    <header className="site-header">
+    <header className="site-header" onKeyDown={event => {
+      if (event.key === "Escape" && open) {
+        setOpen(false)
+        event.currentTarget.querySelector<HTMLButtonElement>(".menu-toggle")?.focus()
+      }
+    }}>
       <Link href="/" className="brand" aria-label="Phenom Tours & Travel home" onClick={() => setOpen(false)}>
-        <img src="https://phenomtoursandtravel.net/logo.png" alt="Phenom Tours & Travel" width={242} height={65} />
+        <img src="/media/phenom-logo.webp" alt="Phenom Tours & Travel" width={500} height={141} />
       </Link>
-      <button className="menu-toggle" type="button" aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} onClick={() => setOpen(!open)}>
+      <button className="menu-toggle" type="button" aria-label={open ? "Close navigation" : "Open navigation"} aria-controls="main-navigation" aria-expanded={open} onClick={() => setOpen(!open)}>
         {open ? <X size={24} /> : <Menu size={24} />}
       </button>
-      <nav className={`main-nav${open ? " is-open" : ""}`} aria-label="Main navigation">
+      <nav id="main-navigation" className={`main-nav${open ? " is-open" : ""}`} aria-label="Main navigation">
         {links.map(([label, href]) => (
           <Link key={label} href={href} onClick={() => setOpen(false)}>{label}</Link>
         ))}
@@ -40,7 +45,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="footer-grid">
         <div className="footer-brand">
-          <img src="https://phenomtoursandtravel.net/logo.png" alt="Phenom Tours & Travel" width={220} height={60} />
+          <img src="/media/phenom-logo.webp" alt="Phenom Tours & Travel" width={500} height={141} />
           <p>Thoughtfully planned birding, primate, wildlife and community safaris across East Africa.</p>
         </div>
         <div><h2>Explore</h2><Link href="/destinations">Destinations</Link><Link href="/tour-packages">Tour packages</Link><Link href="/gallery">Gallery</Link><Link href="/search">Search tours</Link></div>
