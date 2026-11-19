@@ -11,12 +11,14 @@ export const metadata: Metadata = {
   authors: [{ name: "Phenom Tours & Travel" }],
   creator: "Phenom Tours & Travel",
   publisher: "Phenom Tours & Travel",
-  openGraph: { type: "website", locale: "en_UG", siteName: "Phenom Tours & Travel", title: "Phenom Tours and Travel | Uganda Birding & Primate Safaris", description: "Personalised birding, primate, wildlife and community safaris across East Africa." },
+  icons: { icon: [{ url: "/favicon.ico" }, { url: "/logo.png", type: "image/png" }], shortcut: "/favicon.ico", apple: "/logo.png" },
+  alternates: { canonical: "/" },
+  openGraph: { type: "website", locale: "en_UG", siteName: "Phenom Tours & Travel", title: "Phenom Tours and Travel | Uganda Birding & Primate Safaris", description: "Personalised birding, primate, wildlife and community safaris across East Africa.", url: "https://phenomtoursandtravel.net" },
   twitter: { card: "summary_large_image", title: "Phenom Tours and Travel | Uganda Birding & Primate Safaris", description: "Personalised birding, primate, wildlife and community safaris across East Africa." },
   other: { "msvalidate.01": "32B47117C014DEBB5B11A82D4BB69A0B" },
 }
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#1B5E3F", colorScheme: "light" }
+export const viewport: Viewport = { width: "device-width", initialScale: 1, maximumScale: 5, themeColor: "#F97316", colorScheme: "light" }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body><a className="skip-link" href="#main-content">Skip to main content</a><SiteHeader /><div id="main-content" tabIndex={-1}>{children}</div><SiteFooter /><WhatsAppButton /></body></html>

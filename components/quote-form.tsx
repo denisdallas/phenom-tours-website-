@@ -24,13 +24,21 @@ export function QuoteForm({ initialTour = "", initialDestination = "" }: { initi
       return
     }
 
-    const details = Array.from(formData.entries())
-      .filter(([key]) => key !== "marketing_consent")
-      .map(([key, value]) => `${key.replaceAll("_", " ")}: ${String(value).trim()}`)
-      .join("\n")
-    const subject = `Safari quote request — ${String(String(formData.get("preferred_tour") || "").trim() || formData.get("destination") || "Phenom Tours")}`
+    const name = String(formData.get("name") || "")
+    const tour = String(formData.get("preferred_tour") || formData.get("destination") || "Tour inquiry")
+    const date = [startDate, endDate].filter(Boolean).join(" to ")
+    const subject = `Tour Inquiry - ${name} - ${tour}`
+    const body = [
+      `Name: ${name}`,
+      `Email: ${String(formData.get("email") || "")}`,
+      `Phone: ${String(formData.get("phone") || "")}`,
+      `Tour: ${tour}`,
+      `Date: ${date}`,
+      `Guests: ${String(formData.get("number_of_guests") || "")}`,
+      `Message: ${String(formData.get("message") || "")}`,
+    ].join("\r\n")
     setStatus("opening")
-    window.location.href = `mailto:info@phenomtoursandtravel.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(details)}`
+    window.location.href = `mailto:info@phenomtoursandtravel.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   return <form className="quote-form" action="mailto:info@phenomtoursandtravel.com" method="post" encType="text/plain" onSubmit={submit}>
@@ -51,6 +59,6 @@ export function QuoteForm({ initialTour = "", initialDestination = "" }: { initi
     {status === "invalid" && <p className="form-message form-error" role="alert">The end date must be on or after the start date.</p>}
     {status === "opening" && <p className="form-message" role="status">Your email app should open with this enquiry ready to send. If it doesn’t, email <a href="mailto:info@phenomtoursandtravel.com">info@phenomtoursandtravel.com</a>.</p>}
     <button className="button button-orange form-submit" type="submit">Prepare enquiry email</button>
-    <p className="form-note">Send the prepared enquiry from your email app, or email <a href="mailto:info@phenomtoursandtravel.com">info@phenomtoursandtravel.com</a> directly.</p>
+    <p className="form-note">This opens your email app to send to <a href="mailto:info@phenomtoursandtravel.com">info@phenomtoursandtravel.com</a>. No data is stored automatically.</p>
   </form>
 }
