@@ -17,13 +17,21 @@ export function QuoteForm({ initialTour = "", initialDestination = "" }: { initi
       return
     }
 
-    const details = Array.from(formData.entries())
-      .filter(([key]) => key !== "marketing_consent")
-      .map(([key, value]) => `${key.replaceAll("_", " ")}: ${String(value)}`)
-      .join("\n")
-    const subject = `Safari quote request — ${String(formData.get("preferred_tour") || formData.get("destination") || "Phenom Tours")}`
+    const name = String(formData.get("name") || "")
+    const tour = String(formData.get("preferred_tour") || formData.get("destination") || "Tour inquiry")
+    const date = [startDate, endDate].filter(Boolean).join(" to ")
+    const subject = `Tour Inquiry - ${name} - ${tour}`
+    const body = [
+      `Name: ${name}`,
+      `Email: ${String(formData.get("email") || "")}`,
+      `Phone: ${String(formData.get("phone") || "")}`,
+      `Tour: ${tour}`,
+      `Date: ${date}`,
+      `Guests: ${String(formData.get("number_of_guests") || "")}`,
+      `Message: ${String(formData.get("message") || "")}`,
+    ].join("\r\n")
     setStatus("opening")
-    window.location.href = `mailto:info@phenomtoursandtravel.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(details)}`
+    window.location.href = `mailto:info@phenomtoursandtravel.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   return <form className="quote-form" onSubmit={submit}>
@@ -39,11 +47,10 @@ export function QuoteForm({ initialTour = "", initialDestination = "" }: { initi
       <label>Approximate Budget<input name="approximate_budget" type="text" placeholder="e.g. USD 3,000 per person" /></label>
       <fieldset className="form-span"><legend>Are your dates flexible?</legend><label className="radio-label"><input type="radio" name="dates_flexible" value="Yes" defaultChecked /> Yes</label><label className="radio-label"><input type="radio" name="dates_flexible" value="No" /> No</label></fieldset>
       <label className="form-span">Special Requests &amp; Message *<textarea name="message" rows={5} required placeholder="Tell us what you would love to experience" /></label>
-      <label className="consent form-span"><input name="marketing_consent" type="checkbox" value="yes" /> I would like to receive occasional news and travel offers from Phenom Tours &amp; Travel.</label>
     </div>
     {status === "invalid" && <p className="form-message form-error" role="alert">The end date must be on or after the start date.</p>}
     {status === "opening" && <p className="form-message" role="status">Your email app should open with this enquiry ready to send. If it doesn’t, email <a href="mailto:info@phenomtoursandtravel.com">info@phenomtoursandtravel.com</a>.</p>}
     <button className="button button-orange form-submit" type="submit">Prepare enquiry email</button>
-    <p className="form-note">This form prepares an email in your device&apos;s mail app. It does not send automatically.</p>
+    <p className="form-note">This will open your email app to send to info@phenomtoursandtravel.com. No data is stored automatically.</p>
   </form>
 }
