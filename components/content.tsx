@@ -43,7 +43,17 @@ export function PostCard({ post }: { post: Post }) {
   </article>
 }
 
+function internalHref(href?: string) {
+  if (!href || !/^(?:https?:)?\/\//i.test(href)) return href
+
+  const url = URL.parse(href, "https://phenomtoursandtravel.net")
+  if (!url || !["phenomtoursandtravel.net", "www.phenomtoursandtravel.net"].includes(url.host)) return href
+
+  if (url.pathname.startsWith("//")) return href
+  return `${url.pathname}${url.search}${url.hash}`
+}
+
 export function PortableBody({ value }: { value?: unknown[] }) {
   if (!value?.length) return null
-  return <div className="portable-body"><PortableText value={value as never} components={{ block: { h1: ({ children }) => <h2>{children}</h2>, h2: ({ children }) => <h2>{children}</h2>, h3: ({ children }) => <h3>{children}</h3>, normal: ({ children }) => <p>{children}</p> }, list: { bullet: ({ children }) => <ul>{children}</ul>, number: ({ children }) => <ol>{children}</ol> }, marks: { link: ({ children, value }) => <a href={value?.href} target={value?.blank ? "_blank" : undefined} rel={value?.blank ? "noreferrer" : undefined}>{children}</a> } }} /></div>
+  return <div className="portable-body"><PortableText value={value as never} components={{ block: { h1: ({ children }) => <h2>{children}</h2>, h2: ({ children }) => <h2>{children}</h2>, h3: ({ children }) => <h3>{children}</h3>, normal: ({ children }) => <p>{children}</p> }, list: { bullet: ({ children }) => <ul>{children}</ul>, number: ({ children }) => <ol>{children}</ol> }, marks: { link: ({ children, value }) => <a href={internalHref(value?.href)} target={value?.blank ? "_blank" : undefined} rel={value?.blank ? "noreferrer" : undefined}>{children}</a> } }} /></div>
 }
