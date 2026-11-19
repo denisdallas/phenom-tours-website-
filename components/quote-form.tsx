@@ -17,11 +17,18 @@ export function QuoteForm({ initialTour = "", initialDestination = "" }: { initi
       return
     }
 
+    const message = form.elements.namedItem("message") as HTMLTextAreaElement
+    if (!message.value.trim()) {
+      message.setCustomValidity("Please enter a message about your safari.")
+      message.reportValidity()
+      return
+    }
+
     const details = Array.from(formData.entries())
       .filter(([key]) => key !== "marketing_consent")
-      .map(([key, value]) => `${key.replaceAll("_", " ")}: ${String(value)}`)
+      .map(([key, value]) => `${key.replaceAll("_", " ")}: ${String(value).trim()}`)
       .join("\n")
-    const subject = `Safari quote request — ${String(formData.get("preferred_tour") || formData.get("destination") || "Phenom Tours")}`
+    const subject = `Safari quote request — ${String(String(formData.get("preferred_tour") || "").trim() || formData.get("destination") || "Phenom Tours")}`
     setStatus("opening")
     window.location.href = `mailto:info@phenomtoursandtravel.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(details)}`
   }
@@ -38,7 +45,7 @@ export function QuoteForm({ initialTour = "", initialDestination = "" }: { initi
       <label>Number of Guests<input name="number_of_guests" type="number" min="1" max="50" defaultValue="2" /></label>
       <label>Approximate Budget<input name="approximate_budget" type="text" placeholder="e.g. USD 3,000 per person" /></label>
       <fieldset className="form-span"><legend>Are your dates flexible?</legend><label className="radio-label"><input type="radio" name="dates_flexible" value="Yes" defaultChecked /> Yes</label><label className="radio-label"><input type="radio" name="dates_flexible" value="No" /> No</label></fieldset>
-      <label className="form-span">Special Requests &amp; Message *<textarea name="message" rows={5} maxLength={1000} required placeholder="Tell us what you would love to experience" /></label>
+      <label className="form-span">Special Requests &amp; Message *<textarea name="message" rows={5} onInput={event => event.currentTarget.setCustomValidity("")} maxLength={1000} required placeholder="Tell us what you would love to experience" /></label>
       <label className="consent form-span"><input name="marketing_consent" type="checkbox" value="yes" /> I would like to receive occasional news and travel offers from Phenom Tours &amp; Travel.</label>
     </div>
     {status === "invalid" && <p className="form-message form-error" role="alert">The end date must be on or after the start date.</p>}
