@@ -1,8 +1,7 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { getDestinations, getGallery, getPosts, getServices, getSiteSettings, getTours, getSanityImageUrl } from "@/lib/sanity"
-import { GoogleReviewFeed } from "@/components/google-review-feed"
-import { GOOGLE_PROFILE_URL } from "@/lib/review-links"
+import { GOOGLE_PROFILE_URL, TRIPADVISOR_LISTING_URL } from "@/lib/review-links"
 import { ServiceCards, specialties } from "@/components/service-cards"
 import { HeroMedia } from "@/components/hero-media"
 import { DestinationCard, PostCard, TourGrid } from "@/components/content"
@@ -47,9 +46,21 @@ export default async function HomePage() {
     <section className="section section-green" id="services"><div className="container"><div className="section-heading section-heading-light"><div><span className="eyebrow">PERSONAL SERVICE, THOUGHTFUL DETAIL</span><h2>Explore Your Way</h2><p>From the first idea to the last transfer, we help you make the most of East Africa.</p></div></div><ServiceCards services={services} /><Link className="service-directory-link" href="/services">Explore our services <ArrowRight size={16} aria-hidden="true" /></Link></div></section>
 
     <section id="reviews" className="section section-white"><div className="container">
-      <div className="section-heading"><div><span className="eyebrow">REVIEWS FROM OUR GUESTS</span><h2>What travellers share</h2><p>Read genuine feedback directly from Phenom Tours’ public review profiles.</p></div><a className="text-link" href={GOOGLE_PROFILE_URL} target="_blank" rel="noreferrer">Open Google reviews <ArrowRight size={16} /></a></div>
-      <GoogleReviewFeed />
-      <div className="review-platform-link"><div><span className="eyebrow">TRIPADVISOR</span><p>Read Tripadvisor traveller reviews on their own dedicated page.</p></div><Link className="text-link" href="/reviews/tripadvisor">Read Tripadvisor reviews <ArrowRight size={16} /></Link></div>
+      <div className="section-heading"><div><span className="eyebrow">REVIEWS FROM OUR GUESTS</span><h2>Read travellers’ reviews</h2><p>Open our official review profiles to read the latest feedback. New reviews appear there as the platforms publish them.</p></div></div>
+      <div className="review-grid review-source-grid">
+        <article className="review-card review-source-card">
+          <span className="eyebrow">GOOGLE BUSINESS PROFILE</span>
+          <h3>Google reviews</h3>
+          <p>Read guest ratings and reviews on Google Maps.</p>
+          <a className="review-source-link" href={GOOGLE_PROFILE_URL} target="_blank" rel="noreferrer">Read Google reviews <ArrowRight size={16} aria-hidden="true" /></a>
+        </article>
+        <article className="review-card review-source-card">
+          <span className="eyebrow">TRIPADVISOR</span>
+          <h3>Tripadvisor traveller reviews</h3>
+          <p>Read current traveller feedback on Tripadvisor.</p>
+          <a className="review-source-link" href={TRIPADVISOR_LISTING_URL} target="_blank" rel="noreferrer">Read Tripadvisor reviews <ArrowRight size={16} aria-hidden="true" /></a>
+        </article>
+      </div>
     </div></section>
 
     {posts.length > 0 && <section className="section section-soft"><div className="container"><div className="section-heading"><div><span className="eyebrow">FIELD NOTES &amp; INSPIRATION</span><h2>From Our Travel Journal</h2><p>Practical tips and stories to help you plan a more rewarding East African safari.</p></div><Link className="text-link" href="/blog">Read the journal <ArrowRight size={16} /></Link></div><div className="post-grid">{posts.slice(0, 3).map(post => <PostCard key={post._id} post={post} />)}</div></div></section>}
