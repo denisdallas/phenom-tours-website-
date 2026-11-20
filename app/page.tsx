@@ -6,8 +6,8 @@ import { HeroMedia } from "@/components/hero-media"
 import { DestinationCard, PostCard, TourGrid } from "@/components/content"
 
 export const metadata = {
-  title: "Phenom Tours and Travel | Uganda Birding & Primate Safaris",
-  description: "Explore Uganda through personalised birding, primate trekking, wildlife and community safaris. Choose budget, mid-range or luxury journeys tailored to your interests, travel dates and preferred pace.",
+  title: "Uganda Birding & Primate Safaris",
+  description: "Plan Uganda birding, gorilla and chimpanzee trekking, wildlife and community safaris with Phenom Tours. Choose a journey tailored to your dates and budget.",
   alternates: { canonical: "/" },
 }
 
