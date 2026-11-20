@@ -12,7 +12,6 @@ function selectSource(customVideo?: string) {
 export function HeroMedia({ customVideo, customPoster }: { customVideo?: string; customPoster?: string }) {
   const video = useRef<HTMLVideoElement>(null)
   const [source, setSource] = useState<string>()
-  const [playing, setPlaying] = useState(false)
   const [showVideo, setShowVideo] = useState(false)
 
   useEffect(() => {
@@ -21,7 +20,6 @@ export function HeroMedia({ customVideo, customPoster }: { customVideo?: string;
       if (motion.matches) {
         video.current?.pause()
         setSource(undefined)
-        setPlaying(false)
         setShowVideo(false)
       } else {
         setSource(selectSource(customVideo))
@@ -33,18 +31,8 @@ export function HeroMedia({ customVideo, customPoster }: { customVideo?: string;
   }, [customVideo])
 
   useEffect(() => {
-    if (source) void video.current?.play().catch(() => setPlaying(false))
+    if (source) void video.current?.play().catch(() => setShowVideo(false))
   }, [source])
-
-  function togglePlayback() {
-    if (!source) {
-      setSource(selectSource(customVideo))
-    } else if (video.current?.paused) {
-      void video.current.play().catch(() => setPlaying(false))
-    } else {
-      video.current?.pause()
-    }
-  }
 
   return <>
     <picture>
@@ -53,11 +41,7 @@ export function HeroMedia({ customVideo, customPoster }: { customVideo?: string;
     </picture>
     {source && <video ref={video} className={`hero-media hero-video${showVideo ? " is-visible" : ""}`}
       src={source} muted loop playsInline preload="none" aria-hidden="true"
-      onPlaying={() => { setPlaying(true); setShowVideo(true) }}
-      onPause={() => setPlaying(false)}
-      onError={() => { setPlaying(false); setShowVideo(false) }} />}
-    <button className="hero-playback" type="button" onClick={togglePlayback}>
-      {playing ? "Pause background video" : "Play background video"}
-    </button>
+      onPlaying={() => setShowVideo(true)}
+      onError={() => setShowVideo(false)} />}
   </>
 }

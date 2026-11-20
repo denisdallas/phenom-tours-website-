@@ -111,7 +111,6 @@ body{font-size:clamp(1rem,1.15vw,1.125rem)}
 .hero-video{opacity:0}
 .hero-video.is-visible{opacity:1}
 .hero-shade{background:linear-gradient(90deg,#081611bd,#081611ae 50%,#081611bd);pointer-events:none}
-.hero-playback{position:absolute;z-index:3;right:16px;bottom:16px;min-height:44px;padding:6px 12px;border:1px solid #fff;border-radius:6px;background:#10271f;color:#fff;font-size:13px}
 .button-orange{color:#18221d}
 .button-orange:hover{background:#ff8450}
 :focus-visible{outline:3px solid #1b5e3f;outline-offset:3px}
@@ -121,7 +120,7 @@ body{font-size:clamp(1rem,1.15vw,1.125rem)}
 .form-note a,.form-message a{text-decoration:underline;overflow-wrap:anywhere}
 .tour-filters{margin-bottom:20px}
 .filter-actions{display:flex;align-items:center;gap:18px;margin-top:14px}
-@media(max-width:780px){.hero{height:auto;min-height:520px;padding-bottom:42px}.menu-toggle{min-width:44px;min-height:44px}.hero-playback{right:10px;bottom:10px}.hero-scroll{left:18px;transform:none}}
+@media(max-width:780px){.hero{height:auto;min-height:520px}.menu-toggle{min-width:44px;min-height:44px}.hero-scroll{left:50%;transform:translateX(-50%)}}
 
 .card-body .tour-price{color:var(--green);font-weight:700}
 
