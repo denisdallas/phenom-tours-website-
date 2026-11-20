@@ -1,4 +1,4 @@
-import { GOOGLE_PLACE_ID, GOOGLE_PROFILE_URL } from "@/lib/review-links"
+import { GOOGLE_PLACE_ID } from "@/lib/review-links"
 import type { GoogleReview } from "@/lib/review-links"
 
 type PlacesReview = {
@@ -42,11 +42,11 @@ export async function getGoogleReviews(): Promise<GoogleReview[]> {
       const text = review.text?.text?.trim() ?? ""
       const rating = Number(review.rating ?? 0)
       const publishedAt = review.publishTime ?? ""
-      const googleMapsUri = review.googleMapsUri ?? GOOGLE_PROFILE_URL
+      const googleMapsUri = review.googleMapsUri?.trim() ?? ""
       const author = review.authorAttribution?.displayName?.trim() ?? ""
       const id = review.name || googleMapsUri + publishedAt + author
 
-      if (!id || !text || !publishedAt || rating < 1 || rating > 5 || !googleMapsUri) return null
+      if (!id || !text || !publishedAt || !author || rating < 1 || rating > 5 || !googleMapsUri) return null
 
       return {
         id,
