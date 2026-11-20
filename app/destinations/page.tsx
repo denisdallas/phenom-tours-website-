@@ -4,7 +4,7 @@ import { DestinationCard, PageIntro } from "@/components/content"
 
 export const metadata = {
   title: "East Africa Safari Destinations",
-  description: "Explore Uganda, Kenya, Rwanda and Tanzania. Find wildlife, gorilla trekking, birding and East African safari destinations with Phenom Tours.",
+  description: "Compare Uganda, Kenya, Rwanda and Tanzania safari destinations. Explore wildlife, birding and primate experiences, then plan your East Africa trip.",
   alternates: { canonical: "/destinations" },
 }
 
@@ -14,20 +14,19 @@ export default async function DestinationsPage() {
   return (
     <main>
       <PageIntro
-        title="Explore Our Destinations"
-        description="Discover East Africa through birding, primate, wildlife and community experiences in Uganda, Kenya, Rwanda and Tanzania."
+        title="Explore East Africa Safari Destinations"
+        description="Choose from Uganda, Kenya, Rwanda and Tanzania. Compare each destination's safari experiences, browse tour options and plan around your dates and interests."
       />
       <section className="content-section">
         <div className="container">
-          <h2>Choose your East African destination</h2>
+          <h2>Compare our destinations</h2>
           <div className="destination-grid">
             {destinations.map(item => <DestinationCard key={item._id} destination={item} />)}
           </div>
           <section className="detail-block">
-            <h2>Discover East Africa your way</h2>
-            <p>East Africa offers a variety of safari experiences, from forest encounters and birding to wildlife viewing across open savannahs and time with local communities. Choose a destination that matches what you want to experience, how long you have to travel and your preferred pace.</p>
-            <p>Uganda is a rewarding choice for travellers interested in primates, birding, wildlife and varied landscapes. Kenya, Rwanda and Tanzania offer their own memorable wildlife, scenery and cultural experiences across the region.</p>
-            <p>Not sure where to start? Browse our <Link className="text-link" href="/tour-packages">safari tour packages</Link> or <Link className="text-link" href="/contact">tell us what you would like to experience</Link>. We can help you plan a journey around your dates, interests and budget.</p>
+            <h2>Plan an East Africa safari that fits your trip</h2>
+            <p>East Africa offers varied ways to travel, from forest encounters and birding to wildlife viewing across open savannahs and time with local communities. Think about the experiences you want, your travel dates and how much time you have when choosing where to go.</p>
+            <p>Not sure where to start? Browse our <Link className="text-link" href="/tour-packages">safari tour packages</Link> or <Link className="text-link" href="/contact">tell us what you would like to experience</Link>. We can help shape a journey around your dates, interests and budget.</p>
           </section>
         </div>
       </section>
