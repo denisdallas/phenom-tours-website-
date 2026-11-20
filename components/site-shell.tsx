@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { Menu, MessageCircle, X, Instagram, Facebook } from "lucide-react"
+import { Menu, MessageCircle, X, Instagram, Facebook, Music2 } from "lucide-react"
 
 const links = [
   ["Home", "/"],
@@ -54,6 +54,7 @@ export function SiteFooter() {
           <div className="footer-social" aria-label="Social media">
             <a href="https://www.instagram.com/phenomtours?igsh=b3o2cGEzdzdkeXo5" target="_blank" rel="noreferrer" aria-label="Follow Phenom Tours on Instagram"><Instagram size={20} aria-hidden="true" /><span>Instagram</span></a>
             <a href="https://www.facebook.com/share/18mCZoTWKx/?mibextid=wwXIfr" target="_blank" rel="noreferrer" aria-label="Follow Phenom Tours on Facebook"><Facebook size={20} aria-hidden="true" /><span>Facebook</span></a>
+            <a href="https://www.tiktok.com/@phenomtours" target="_blank" rel="noreferrer" aria-label="Follow Phenom Tours on TikTok"><Music2 size={20} aria-hidden="true" /><span>TikTok</span></a>
           </div></div>
       </div>
       <div className="trust-badges" aria-label="Tourism recognition and accepted payments">
