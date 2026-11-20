@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   other: { "msvalidate.01": "32B47117C014DEBB5B11A82D4BB69A0B" },
 }
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, maximumScale: 5, themeColor: "#F97316", colorScheme: "light" }
+export const viewport: Viewport = { width: "device-width", initialScale: 1, maximumScale: 5, themeColor: "#FC6105", colorScheme: "light" }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body><a className="skip-link" href="#main-content">Skip to main content</a><SiteHeader /><div id="main-content" tabIndex={-1}>{children}</div><SiteFooter /><WhatsAppButton /></body></html>
