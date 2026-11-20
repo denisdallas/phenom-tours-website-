@@ -1,3 +1,4 @@
+import { TRIPADVISOR_LISTING_URL } from "@/lib/review-links"
 import type { GoogleReview, TripadvisorReview } from "@/lib/review-links"
 
 type GoogleApiReview = {
@@ -174,7 +175,12 @@ export async function getTripadvisorReviews(): Promise<TripadvisorReview[]> {
   if (!response.ok) throw new Error("Tripadvisor reviews could not be loaded.")
 
   const payload = await response.json() as TripadvisorReviewsResponse
-  return (payload.data ?? [])
+  const sourceReviews = payload.data ?? []
+
+  // Avoid selecting individual Tripadvisor reviews; suppress the whole feed if a template appears.
+  if (sourceReviews.some(review => isTemplateReview((review.title ?? "") + " " + (review.text ?? "")))) return []
+
+  return sourceReviews
     .map((review): TripadvisorReview | null => {
       const text = review.text?.trim() ?? ""
       const title = review.title?.trim() ?? ""
@@ -185,7 +191,6 @@ export async function getTripadvisorReviews(): Promise<TripadvisorReview[]> {
       const url = isTripadvisorUrl(review.url) ? review.url as string : TRIPADVISOR_LISTING_URL
 
       if (!id || !text || !publishedAt || Number.isNaN(Date.parse(publishedAt))) return null
-      if (isTemplateReview(title + " " + text)) return null
 
       return {
         id,
@@ -201,4 +206,3 @@ export async function getTripadvisorReviews(): Promise<TripadvisorReview[]> {
     .slice(0, 5)
 }
 
-import { TRIPADVISOR_LISTING_URL } from "@/lib/review-links"
