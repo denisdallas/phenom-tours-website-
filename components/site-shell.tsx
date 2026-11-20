@@ -50,7 +50,7 @@ export function SiteFooter() {
         </div>
         <div><h2>Explore</h2><Link href="/destinations">Destinations</Link><Link href="/tour-packages">Tour packages</Link><Link href="/gallery">Gallery</Link><Link href="/search">Search tours</Link></div>
         <div><h2>Company</h2><Link href="/about">About us</Link><Link href="/blog">Travel journal</Link><Link href="/contact">Contact</Link><Link href="/booking-terms-and-conditions">Booking terms</Link><Link href="/privacy-policy">Privacy policy</Link></div>
-        <div><h2>Get in touch</h2><a href="tel:+256764388326">+256 764 388 326</a><a href="mailto:info@phenomtoursandtravel.com">info@phenomtoursandtravel.com</a><a href="https://wa.me/256764388326" target="_blank" rel="noreferrer">WhatsApp us</a><p>Entebbe, Uganda</p></div>
+        <div><h2>Get in touch</h2><a href="tel:+256764388326">+256 764 388 326</a><a href="mailto:info@phenomtoursandtravel.com">info@phenomtoursandtravel.com</a><a href="https://wa.me/256764388326" target="_blank" rel="noreferrer">WhatsApp us</a><p>Matugga, Uganda</p></div>
       </div>
       <div className="trust-badges" aria-label="Tourism recognition and accepted payments">
         <section className="trust-row" aria-labelledby="recognized-by-title">
