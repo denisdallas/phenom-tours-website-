@@ -1,6 +1,8 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { getDestinations, getGallery, getPosts, getServices, getSiteSettings, getTestimonials, getTours, getSanityImageUrl } from "@/lib/sanity"
+import { getDestinations, getGallery, getPosts, getServices, getSiteSettings, getTours, getSanityImageUrl } from "@/lib/sanity"
+import { GoogleReviewFeed } from "@/components/google-review-feed"
+import { GOOGLE_PROFILE_URL } from "@/lib/review-links"
 import { ServiceCards, specialties } from "@/components/service-cards"
 import { HeroMedia } from "@/components/hero-media"
 import { DestinationCard, PostCard, TourGrid } from "@/components/content"
@@ -12,7 +14,7 @@ export const metadata = {
 }
 
 export default async function HomePage() {
-  const [tours, destinations, services, posts, testimonials, gallery, settings] = await Promise.all([getTours(), getDestinations(), getServices(), getPosts(), getTestimonials(), getGallery(), getSiteSettings()])
+  const [tours, destinations, services, posts, gallery, settings] = await Promise.all([getTours(), getDestinations(), getServices(), getPosts(), getGallery(), getSiteSettings()])
   const video = settings?.heroBackgroundVideo?.asset?.url
   const poster = settings?.heroVideoPoster?.url
   const customVideo = video && !video.endsWith("/775ad414da4903fb27d3bc4bedac81aa69c86229.mp4") ? video : undefined
@@ -44,7 +46,11 @@ export default async function HomePage() {
 
     <section className="section section-green" id="services"><div className="container"><div className="section-heading section-heading-light"><div><span className="eyebrow">PERSONAL SERVICE, THOUGHTFUL DETAIL</span><h2>Explore Your Way</h2><p>From the first idea to the last transfer, we help you make the most of East Africa.</p></div></div><ServiceCards services={services} /><Link className="service-directory-link" href="/services">Explore our services <ArrowRight size={16} aria-hidden="true" /></Link></div></section>
 
-    {testimonials.length > 0 && <section className="section section-white"><div className="container"><div className="section-heading"><div><span className="eyebrow">TRAVELLER STORIES</span><h2>What Our Guests Say</h2><p>Personal journeys, remembered long after the return home.</p></div></div><div className="testimonial-grid">{testimonials.slice(0, 3).map(testimonial => <figure className="testimonial-card" key={testimonial._id}>{testimonial.rating ? <div className="testimonial-stars" aria-label={`${testimonial.rating} out of 5 stars`}>{"★".repeat(Math.min(testimonial.rating, 5))}</div> : null}<blockquote>“{testimonial.text}”</blockquote><figcaption><strong>{testimonial.customerName}</strong>{testimonial.location && <span>{testimonial.location}</span>}</figcaption></figure>)}</div></div></section>}
+    <section id="reviews" className="section section-white"><div className="container">
+      <div className="section-heading"><div><span className="eyebrow">REVIEWS FROM OUR GUESTS</span><h2>What travellers share</h2><p>Read genuine feedback directly from Phenom Tours’ public review profiles.</p></div><a className="text-link" href={GOOGLE_PROFILE_URL} target="_blank" rel="noreferrer">Open Google reviews <ArrowRight size={16} /></a></div>
+      <GoogleReviewFeed />
+      <div className="review-platform-link"><div><span className="eyebrow">TRIPADVISOR</span><p>Read Tripadvisor traveller reviews on their own dedicated page.</p></div><Link className="text-link" href="/reviews/tripadvisor">Read Tripadvisor reviews <ArrowRight size={16} /></Link></div>
+    </div></section>
 
     {posts.length > 0 && <section className="section section-soft"><div className="container"><div className="section-heading"><div><span className="eyebrow">FIELD NOTES &amp; INSPIRATION</span><h2>From Our Travel Journal</h2><p>Practical tips and stories to help you plan a more rewarding East African safari.</p></div><Link className="text-link" href="/blog">Read the journal <ArrowRight size={16} /></Link></div><div className="post-grid">{posts.slice(0, 3).map(post => <PostCard key={post._id} post={post} />)}</div></div></section>}
 
