@@ -188,9 +188,10 @@ export async function getTripadvisorReviews(): Promise<TripadvisorReview[]> {
       const id = review.id === undefined ? "" : String(review.id)
       const ratingImageUrl = review.rating_image_url || review.rating_image
       const author = review.user?.username?.trim() || review.user?.name?.trim() || ""
-      const url = isTripadvisorUrl(review.url) ? review.url as string : TRIPADVISOR_LISTING_URL
+      const url = review.url
 
       if (!id || !text || !publishedAt || Number.isNaN(Date.parse(publishedAt))) return null
+      if (!isTripadvisorImageUrl(ratingImageUrl) || !isTripadvisorUrl(url)) return null
 
       return {
         id,
@@ -198,8 +199,8 @@ export async function getTripadvisorReviews(): Promise<TripadvisorReview[]> {
         title,
         text,
         publishedAt,
-        ratingImageUrl: isTripadvisorImageUrl(ratingImageUrl) ? ratingImageUrl : undefined,
-        url,
+        ratingImageUrl,
+        url: url as string,
       }
     })
     .filter((review): review is TripadvisorReview => review !== null)
