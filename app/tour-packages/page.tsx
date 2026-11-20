@@ -2,7 +2,7 @@ import Link from "next/link"
 import { getTours } from "@/lib/sanity"
 import { PageIntro, TourGrid } from "@/components/content"
 
-export const metadata = { title: "Safari Tour Packages | Uganda, Kenya, Rwanda & Tanzania", description: "Browse handcrafted East African safari packages and request a tailored itinerary.", alternates: { canonical: "/tour-packages" } }
+export const metadata = { title: "East Africa Safari Packages", description: "Browse Uganda, Kenya, Rwanda and Tanzania safari packages. Compare wildlife, primate and birding trips, then request a tailor-made quote.", alternates: { canonical: "/tour-packages" } }
 
 function singleValue(value: string | string[] | undefined) {
   return (typeof value === "string" ? value : value?.[0] ?? "").trim()
@@ -27,7 +27,7 @@ export default async function TourPackagesPage({ searchParams }: {
   )
 
   return <main>
-    <PageIntro title="Our Tour Packages" description="Handcrafted East African safari and adventure packages for every traveler." />
+    <PageIntro title="Explore Safari Tour Packages" description="Handcrafted East African safari and adventure packages for every traveler." />
     <section className="content-section"><div className="container">
       <div className="section-heading">
         <div><span className="eyebrow">PERSONALISED EAST AFRICA SAFARIS</span><h2>Popular Tour Packages</h2><p>Expertly crafted packages ranging from quick getaways to comprehensive East African adventures.</p><p>Request group and travel-agent rates.</p></div>
