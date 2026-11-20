@@ -24,7 +24,7 @@ export default function TripadvisorReviewsPage() {
     </div></section>
     <section className="section section-white"><div className="container">
       <TripadvisorReviewFeed />
-      <div className="review-platform-link"><div><span className="eyebrow">GOOGLE</span><p>Google reviews appear separately on our homepage.</p></div><Link className="text-link" href="/#reviews">View Google reviews <ArrowRight size={16} /></Link></div>
+      <div className="review-platform-link"><Link className="text-link" href="/">Back to Phenom Tours <ArrowRight size={16} /></Link></div>
     </div></section>
   </main>
 }
