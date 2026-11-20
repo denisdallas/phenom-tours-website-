@@ -80,7 +80,7 @@ export function GoogleReviewFeed() {
       </figure>
     })}</div>
     <p className="review-status">
-      Google returns up to five reviews in relevance order. Google does not verify every review, but checks for and removes fake content when identified.
+      Google returns up to five reviews in relevance order. We show reviews with written text and available author and source attribution. Google does not verify every review, but checks for and removes fake content when identified.
     </p>
   </>
 }
