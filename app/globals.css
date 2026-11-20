@@ -126,3 +126,5 @@ body{font-size:clamp(1rem,1.15vw,1.125rem)}
 
 .service-directory-link{display:inline-flex;align-items:center;gap:8px;margin-top:24px;color:#fff;text-decoration:underline;font-weight:700}
 .section-green :focus-visible{outline-color:#fff}
+
+.footer-social{display:flex;align-items:center;gap:14px;margin-top:6px;flex-wrap:wrap}.footer-social a{display:inline-flex;align-items:center;gap:7px;color:#d9e7db!important;font-size:14px}.footer-social a:hover{color:#fff!important}
