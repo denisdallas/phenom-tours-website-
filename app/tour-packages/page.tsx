@@ -2,7 +2,7 @@ import Link from "next/link"
 import { getTours } from "@/lib/sanity"
 import { PageIntro, TourGrid } from "@/components/content"
 
-export const metadata = { title: "East Africa Safari Packages", description: "Browse Uganda, Kenya, Rwanda and Tanzania safari packages. Compare wildlife, primate and birding trips, then request a tailor-made quote.", alternates: { canonical: "/tour-packages" } }
+export const metadata = { title: "East Africa Safari Packages", description: "Browse Uganda, Kenya, Rwanda and Tanzania safari packages. Compare wildlife, birding and primate itineraries, then ask Phenom to tailor a trip to your plans.", alternates: { canonical: "/tour-packages" } }
 
 function singleValue(value: string | string[] | undefined) {
   return (typeof value === "string" ? value : value?.[0] ?? "").trim()
@@ -27,11 +27,11 @@ export default async function TourPackagesPage({ searchParams }: {
   )
 
   return <main>
-    <PageIntro title="Explore Safari Tour Packages" description="Handcrafted East African safari and adventure packages for every traveler." />
+    <PageIntro title="Explore Safari Tour Packages" description="Compare East Africa itineraries for wildlife, birding and primate experiences. Choose a starting tour, then ask us to tailor it around your dates and interests." />
     <section className="content-section"><div className="container">
       <div className="section-heading">
-        <div><span className="eyebrow">PERSONALISED EAST AFRICA SAFARIS</span><h2>Popular Tour Packages</h2><p>Expertly crafted packages ranging from quick getaways to comprehensive East African adventures.</p><p>Request group and travel-agent rates.</p></div>
-        <div className="hero-actions"><Link className="button button-orange" href="/contact">Inquire Now</Link><Link className="button button-outline" style={{ color: "var(--green)", borderColor: "var(--green)" }} href="https://wa.me/256764388326" target="_blank" rel="noreferrer">WhatsApp Us</Link></div>
+        <div><span className="eyebrow">PERSONALISED EAST AFRICA SAFARIS</span><h2>Find a safari that fits your plans</h2><p>Search by tour name or destination, or filter by country. Each itinerary is a starting point; ask us to tailor the route, activities and accommodation to your dates, group and budget.</p><p>Travelling as a group or booking as an agent? Ask us for rates.</p></div>
+        <div className="hero-actions"><Link className="button button-orange" href="/contact">Request a tailor-made quote</Link><Link className="button button-outline" style={{ color: "var(--green)", borderColor: "var(--green)" }} href="https://wa.me/256764388326" target="_blank" rel="noreferrer">WhatsApp Us</Link></div>
       </div>
       <form className="tour-filters" action="/tour-packages" method="get" aria-label="Filter tours">
         <div className="search-controls">
