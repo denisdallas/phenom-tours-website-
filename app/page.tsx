@@ -29,7 +29,7 @@ export default async function HomePage() {
       <div className="hero-content"><span className="hero-kicker">UGANDA · KENYA · RWANDA · TANZANIA</span>
         <h1>Uganda Birding, Primate, Wildlife &amp; Community Safaris</h1>
         <p>Discover East Africa through personalised budget, midrange and luxury journeys with Phenom Tours and Travel.</p>
-        <div className="hero-actions"><Link className="button button-orange" href="/tour-packages">Explore Safaris</Link><a className="button button-outline" href="mailto:info@phenomtoursandtravel.com?subject=Safari%20quote%20request">Request a Quote</a></div>
+        <div className="hero-actions"><Link className="button button-orange" href="/tour-packages">Explore Safaris</Link><Link className="button button-outline" href="/contact">Request a Quote</Link></div>
       </div><a className="hero-scroll" href="#why-phenom" aria-label="Scroll to discover">↓</a>
     </section>
 
