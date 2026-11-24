@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next"
-import Script from "next/script"
 import { SiteFooter, SiteHeader, WhatsAppButton } from "@/components/site-shell"
 import "./globals.css"
 
@@ -25,21 +24,23 @@ const analyticsId = "G-313EXGKDTC"
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        {process.env.NODE_ENV === "production" && <>
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`} />
+          <script id="phenom-ga4" dangerouslySetInnerHTML={{ __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${analyticsId}');
+          ` }} />
+        </>}
+      </head>
       <body>
         <a className="skip-link" href="#main-content">Skip to main content</a>
         <SiteHeader />
         <div id="main-content" tabIndex={-1}>{children}</div>
         <SiteFooter />
         <WhatsAppButton />
-        {process.env.NODE_ENV === "production" && <>
-          <Script src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`} strategy="afterInteractive" />
-          <Script id="phenom-ga4" strategy="afterInteractive">{`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){window.dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${analyticsId}');
-          `}</Script>
-        </>}
       </body>
     </html>
   )
