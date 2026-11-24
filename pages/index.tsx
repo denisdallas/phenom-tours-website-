@@ -1,3 +1,6 @@
+import Head from "next/head"
+import type { InferGetStaticPropsType } from "next"
+import { siteMetadata, siteViewport } from "@/lib/site-metadata"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { getDestinations, getGallery, getPosts, getServices, getSiteSettings, getTours, getSanityImageUrl } from "@/lib/sanity"
@@ -6,14 +9,13 @@ import { ServiceCards, specialties } from "@/components/service-cards"
 import { HeroMedia } from "@/components/hero-media"
 import { DestinationCard, PostCard, TourGrid } from "@/components/content"
 
-export const metadata = {
+const metadata = {
   title: "Uganda Birding & Primate Safaris",
   description: "Plan Uganda birding, gorilla and chimpanzee trekking, wildlife and community safaris with Phenom Tours. Choose a journey tailored to your dates and budget.",
-  alternates: { canonical: "/" },
   verification: { google: "u_g98yNCHI1k-60Ud9yTuMnbeVp9HM2JgZ3YuDbGLL8" },
 }
 
-export default async function HomePage() {
+export async function getStaticProps() {
   const [tours, destinations, services, posts, gallery, settings] = await Promise.all([getTours(), getDestinations(), getServices(), getPosts(), getGallery(), getSiteSettings()])
   const video = settings?.heroBackgroundVideo?.asset?.url
   const poster = settings?.heroVideoPoster?.url
@@ -23,9 +25,56 @@ export default async function HomePage() {
     : undefined
   const featuredTours = tours.filter(tour => tour.featured).slice(0, 6)
   const selectedTours = featuredTours.length ? featuredTours : tours.slice(0, 6)
-  return <main>
+  return {
+    props: {
+      selectedTours: selectedTours.map(({ _id, title, slug, country, duration, shortDescription, price, priceDescription, featuredImage }) => ({
+        _id, title, slug, country, duration, shortDescription, price, priceDescription, featuredImage,
+      })),
+      destinations,
+      services,
+      posts: posts.slice(0, 3).map(({ _id, title, slug, excerpt, publishedAt, featuredImage }) => ({
+        _id, title, slug, excerpt, publishedAt, featuredImage,
+      })),
+      gallery: gallery.filter(item => item.image?.url).slice(0, 3),
+      customVideo: customVideo ?? null,
+      customPoster: customPoster ?? null,
+    },
+    revalidate: 60,
+  }
+}
+
+export default function HomePage({ selectedTours, destinations, services, posts, gallery, customVideo, customPoster }: InferGetStaticPropsType<typeof getStaticProps>) {
+  return <>
+    <Head>
+      <title>{metadata.title}</title>
+      <meta name="description" content={metadata.description} />
+      <meta name="application-name" content={siteMetadata.applicationName} />
+      <meta name="author" content={siteMetadata.authors[0].name} />
+      <meta name="keywords" content={siteMetadata.keywords.join(", ")} />
+      <meta name="creator" content={siteMetadata.creator} />
+      <meta name="publisher" content={siteMetadata.publisher} />
+      <meta name="msvalidate.01" content={siteMetadata.other["msvalidate.01"]} />
+      <meta name="google-site-verification" content={metadata.verification.google} />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+      <meta name="theme-color" content={siteViewport.themeColor} />
+      <meta name="color-scheme" content={siteViewport.colorScheme} />
+      <link rel="canonical" href={siteMetadata.metadataBase.origin} />
+      <link rel="shortcut icon" href={siteMetadata.icons.shortcut} />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="/logo.png" type="image/png" />
+      <link rel="apple-touch-icon" href={siteMetadata.icons.apple} />
+      <meta property="og:title" content={siteMetadata.openGraph.title} />
+      <meta property="og:description" content={siteMetadata.openGraph.description} />
+      <meta property="og:site_name" content={siteMetadata.openGraph.siteName} />
+      <meta property="og:locale" content={siteMetadata.openGraph.locale} />
+      <meta property="og:type" content={siteMetadata.openGraph.type} />
+      <meta name="twitter:card" content={siteMetadata.twitter.card} />
+      <meta name="twitter:title" content={siteMetadata.twitter.title} />
+      <meta name="twitter:description" content={siteMetadata.twitter.description} />
+    </Head>
+    <main>
     <section className="hero" aria-label="Uganda safari experiences">
-      <HeroMedia customVideo={customVideo} customPoster={customPoster} />
+      <HeroMedia customVideo={customVideo ?? undefined} customPoster={customPoster ?? undefined} />
       <div className="hero-shade" />
       <div className="hero-content"><span className="hero-kicker">UGANDA · KENYA · RWANDA · TANZANIA</span>
         <h1>Uganda Birding, Primate, Wildlife &amp; Community Safaris</h1>
@@ -64,10 +113,11 @@ export default async function HomePage() {
       </div>
     </div></section>
 
-    {posts.length > 0 && <section className="section section-soft"><div className="container"><div className="section-heading"><div><span className="eyebrow">FIELD NOTES &amp; INSPIRATION</span><h2>From Our Travel Journal</h2><p>Practical tips and stories to help you plan a more rewarding East African safari.</p></div><Link className="text-link" href="/blog">Read the journal <ArrowRight size={16} /></Link></div><div className="post-grid">{posts.slice(0, 3).map(post => <PostCard key={post._id} post={post} />)}</div></div></section>}
+    {posts.length > 0 && <section className="section section-soft"><div className="container"><div className="section-heading"><div><span className="eyebrow">FIELD NOTES &amp; INSPIRATION</span><h2>From Our Travel Journal</h2><p>Practical tips and stories to help you plan a more rewarding East African safari.</p></div><Link className="text-link" href="/blog">Read the journal <ArrowRight size={16} /></Link></div><div className="post-grid">{posts.map(post => <PostCard key={post._id} post={post} />)}</div></div></section>}
 
-    {gallery.some(item => item.image?.url) && <section className="section section-soft"><div className="container"><div className="section-heading"><div><span className="eyebrow">MOMENTS FROM THE JOURNEY</span><h2>See East Africa Through Our Lens</h2><p>Wildlife, landscapes and the people who make each journey memorable.</p></div><Link className="text-link" href="/gallery">Explore the gallery <ArrowRight size={16} /></Link></div><div className="gallery-grid">{gallery.filter(item => item.image?.url).slice(0, 3).map(item => <figure className="gallery-item" key={item._id}><Link href="/gallery" aria-label={`See more photos: ${item.title}`}><img src={getSanityImageUrl(item.image, 900)} alt={item.image?.alt || item.title} loading="lazy" /><figcaption><span>{item.country}</span><strong>{item.title}</strong></figcaption></Link></figure>)}</div></div></section>}
+    {gallery.length > 0 && <section className="section section-soft"><div className="container"><div className="section-heading"><div><span className="eyebrow">MOMENTS FROM THE JOURNEY</span><h2>See East Africa Through Our Lens</h2><p>Wildlife, landscapes and the people who make each journey memorable.</p></div><Link className="text-link" href="/gallery">Explore the gallery <ArrowRight size={16} /></Link></div><div className="gallery-grid">{gallery.map(item => <figure className="gallery-item" key={item._id}><Link href="/gallery" aria-label={`See more photos: ${item.title}`}><img src={getSanityImageUrl(item.image, 900)} alt={item.image?.alt || item.title} loading="lazy" /><figcaption><span>{item.country}</span><strong>{item.title}</strong></figcaption></Link></figure>)}</div></div></section>}
 
     <section className="closing-cta"><div className="container closing-inner"><div><span className="eyebrow">LET’S PLAN YOUR SAFARI</span><h2>Your East African journey starts here.</h2><p>Tell us what inspires you. We’ll help make a thoughtful, personal itinerary.</p></div><Link className="button button-orange" href="/contact">Use the enquiry form <ArrowRight size={17} /></Link></div></section>
-  </main>
+    </main>
+  </>
 }
