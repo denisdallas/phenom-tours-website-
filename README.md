@@ -11,3 +11,4 @@ The optimized hero loops are derived from `Safari-Hero-Muted.mp4` in Phenom's Sa
 - [Logo](https://cdn.sanity.io/images/r5l7hs53/production/4de377f24d933c08cc110e472dc5cd29a63c3e8e-1080x1080.jpg)
 
 The Sanity video does not have separate licence or credit metadata. Confirm commercial-use rights and supply cleared chimpanzee and community clips before completing the full hero edit.
+   // deployed by denisdallas
