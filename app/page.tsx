@@ -10,6 +10,7 @@ export const metadata = {
   title: "Uganda Birding & Primate Safaris",
   description: "Plan Uganda birding, gorilla and chimpanzee trekking, wildlife and community safaris with Phenom Tours. Choose a journey tailored to your dates and budget.",
   alternates: { canonical: "/" },
+  verification: { google: "u_g98yNCHI1k-60Ud9yTuMnbeVp9HM2JgZ3YuDbGLL8" },
 }
 
 export default async function HomePage() {
