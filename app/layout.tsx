@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next"
+import Script from "next/script"
 import { SiteFooter, SiteHeader, WhatsAppButton } from "@/components/site-shell"
 import "./globals.css"
 
@@ -19,6 +20,27 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, maximumScale: 5, themeColor: "#FC6105", colorScheme: "light" }
 
+const analyticsId = "G-313EXGKDTC"
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><a className="skip-link" href="#main-content">Skip to main content</a><SiteHeader /><div id="main-content" tabIndex={-1}>{children}</div><SiteFooter /><WhatsAppButton /></body></html>
+  return (
+    <html lang="en">
+      <body>
+        <a className="skip-link" href="#main-content">Skip to main content</a>
+        <SiteHeader />
+        <div id="main-content" tabIndex={-1}>{children}</div>
+        <SiteFooter />
+        <WhatsAppButton />
+        {process.env.NODE_ENV === "production" && <>
+          <Script src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`} strategy="afterInteractive" />
+          <Script id="phenom-ga4" strategy="afterInteractive">{`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${analyticsId}');
+          `}</Script>
+        </>}
+      </body>
+    </html>
+  )
 }
