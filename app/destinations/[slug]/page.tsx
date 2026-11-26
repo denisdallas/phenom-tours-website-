@@ -5,13 +5,13 @@ import { DestinationCard, PageIntro, TourGrid } from "@/components/content"
 import { getDestinationSlug, getDestinations, getSanityImageUrl, getTours } from "@/lib/sanity"
 
 export async function generateStaticParams() {
-  const destinations = await getDestinations()
+  const destinations = await getDestinations({ requireAvailable: true })
   return destinations.map(destination => ({ slug: getDestinationSlug(destination) }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const destination = (await getDestinations()).find(item => getDestinationSlug(item) === slug)
+  const destination = (await getDestinations({ requireAvailable: true })).find(item => getDestinationSlug(item) === slug)
   if (!destination) return { title: "East Africa Destination" }
   const name = destination.country.trim()
   return {
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function DestinationDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const [destinations, tours] = await Promise.all([getDestinations(), getTours()])
+  const [destinations, tours] = await Promise.all([getDestinations({ requireAvailable: true }), getTours()])
   const destination = destinations.find(item => getDestinationSlug(item) === slug)
   if (!destination) notFound()
 

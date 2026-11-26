@@ -5,13 +5,13 @@ import { PageIntro, PortableBody, TourGrid } from "@/components/content"
 import { getSanityImageUrl, getTours } from "@/lib/sanity"
 
 export async function generateStaticParams() {
-  const tours = await getTours()
+  const tours = await getTours({ requireAvailable: true })
   return tours.map(tour => ({ slug: tour.slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const tour = (await getTours()).find(item => item.slug === slug)
+  const tour = (await getTours({ requireAvailable: true })).find(item => item.slug === slug)
   if (!tour) return { title: "Safari Tour" }
 
   const image = getSanityImageUrl(tour.featuredImage)
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function TourDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const tours = await getTours()
+  const tours = await getTours({ requireAvailable: true })
   const tour = tours.find(item => item.slug === slug)
   if (!tour) notFound()
 

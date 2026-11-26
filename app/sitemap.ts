@@ -3,7 +3,7 @@ import { getDestinationSlug, getDestinations, getPosts, getTours } from "@/lib/s
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = "https://phenomtoursandtravel.net"
-  const [tours, posts, destinations] = await Promise.all([getTours(), getPosts(), getDestinations()])
+  const [tours, posts, destinations] = await Promise.all([getTours({ requireAvailable: true }), getPosts({ requireAvailable: true }), getDestinations({ requireAvailable: true })])
   const staticRoutes = ["", "/about", "/contact", "/destinations", "/gallery", "/services", "/search", "/tour-packages", "/blog", "/privacy-policy", "/booking-terms-and-conditions"]
   return [
     ...staticRoutes.map(route => ({ url: `${base}${route}`, changeFrequency: route === "" ? "weekly" as const : "monthly" as const, priority: route === "" ? 1 : 0.7 })),

@@ -72,35 +72,41 @@ async function query<T>(groq: string): Promise<T> {
   return sanity.fetch<T>(groq, {}, { next: { revalidate: 60, tags: ["sanity-content"] } })
 }
 
-export async function getTours(): Promise<Tour[]> {
+// Sitemap and detail routes must distinguish an unavailable CMS from missing content.
+type ContentOptions = { requireAvailable?: boolean }
+
+export async function getTours({ requireAvailable = false }: ContentOptions = {}): Promise<Tour[]> {
   try {
     return await query<Tour[]>(`*[_type == "tour" && published == true && defined(slug.current)] | order(featured desc, _createdAt desc) {
       _id, title, "slug": slug.current, country, destination, duration, price, priceDescription,
       shortDescription, fullDescription, highlights, inclusions, exclusions, itinerary,
       featured, seoTitle, seoDescription, "featuredImage": {"url": featuredImage.asset->url, "alt": title}
     }`)
-  } catch {
+  } catch (error) {
+    if (requireAvailable) throw error
     return []
   }
 }
 
-export async function getPosts(): Promise<Post[]> {
+export async function getPosts({ requireAvailable = false }: ContentOptions = {}): Promise<Post[]> {
   try {
     return await query<Post[]>(`*[_type == "post" && published != false && defined(slug.current)] | order(publishedAt desc) {
       _id, title, "slug": slug.current, excerpt, category, publishedAt, body,
       seoTitle, seoDescription, "featuredImage": {"url": featuredImage.asset->url, "alt": title}, "author": author->{name}
     }`)
-  } catch {
+  } catch (error) {
+    if (requireAvailable) throw error
     return []
   }
 }
 
-export async function getDestinations(): Promise<Destination[]> {
+export async function getDestinations({ requireAvailable = false }: ContentOptions = {}): Promise<Destination[]> {
   try {
     return await query<Destination[]>(`*[_type == "destination" && published != false] | order(country asc) {
       _id, name, country, description, "slug": slug.current, "featuredImage": {"url": featuredImage.asset->url, "alt": name}
     }`)
-  } catch {
+  } catch (error) {
+    if (requireAvailable) throw error
     return []
   }
 }
